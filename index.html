@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our 2 Year Journey 🧿</title>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        body {
+            background-color: #ffeef8;
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Entry Screen 🚪 */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffd1dc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s;
+        }
+
+        #enter-btn {
+            background: white;
+            color: #d63384;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        /* The Card 💌 */
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 85%;
+            max-width: 350px;
+            text-align: center;
+            display: none; /* Hidden until Enter is clicked */
+        }
+
+        /* Photo Pile */
+        .photo-gallery { height: 200px; position: relative; margin: 30px 0; }
+        .polaroid {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: absolute;
+            width: 130px;
+            left: 50%;
+            margin-left: -65px;
+        }
+        .polaroid img { width: 100%; height: 130px; object-fit: cover; }
+        .p1 { transform: rotate(-8deg) translateX(-50px); }
+        .p3 { transform: rotate(10deg) translateX(50px); }
+        .p2 { z-index: 5; } /* Main photo in center */
+
+        /* Ribbon & Message Box 🎀 */
+        .ribbon { font-size: 2rem; display: block; margin-bottom: 5px; }
+        #message-box {
+            min-height: 100px;
+            color: #d63384;
+            font-style: italic;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        /* Buttons 🔘 */
+        .btn-row { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .action-btn {
+            background: #ffb6c1;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Heart Particles 🎆 */
+        .heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99;
+            animation: explode 1.5s ease-out forwards;
+        }
+        @keyframes explode {
+            0% { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <button id="enter-btn">Click to Enter Our World 🧿</button>
+    </div>
+
+    <div class="card" id="main-card">
+        <h2 style="color: #d63384; margin-top: 0;">2 Years Together 🧿</h2>
+        
+        <div class="photo-gallery">
+            <div class="polaroid p1"><img src="photo1.jpg"></div>
+            <div class="polaroid p3"><img src="photo3.jpg"></div>
+            <div class="polaroid p2"><img src="photo2.jpg"></div>
+        </div>
+
+        <span class="ribbon">🎀</span>
+        <div id="message-box"></div>
+
+        <div class="btn-row">
+            <button class="action-btn" id="note-btn">Read a Note 💌</button>
+            <button class="action-btn" id="hug-btn">Virtual Hug 🫂</button>
+        </div>
+    </div>
+
+    <div id="player"></div>
+
+    <script>
+        // 1. Music Setup
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0', width: '0',
+                videoId: 'bM7SZ5SbzyY', // Using the ID from your link
+                playerVars: { 'start': 45, 'autoplay': 0, 'controls': 0 },
+            });
+        }
+
+        const notes = [
+            "Welcome to our little world. 🧿 Every moment with you is a gift I'll never stop unwrapping.",
+            "We’ve had our storms ⛈️, but my heart always finds its way back to you. I’m not going anywhere because 'us' is worth every fight. 🧿",
+            "Even when we’re silent 😶, I’m still choosing you. No matter how many times we stumble, you’re the only person I want to walk through life with. 🧿",
+            "You told me to leave, but my heart doesn't know how to do that. You are my world 🌍, and I’ll always be right here waiting for you. 🧿"
+        ];
+
+        let currentNote = 0;
+
+        // 2. Typewriter Effect
+        function typeWriter(text, i = 0) {
+            const box = document.getElementById('message-box');
+            if (i === 0) box.innerHTML = '';
+            if (i < text.length) {
+                box.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(text, i + 1), 50);
+            }
+        }
+
+        // 3. Interactions
+        document.getElementById('enter-btn').addEventListener('click', () => {
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('main-card').style.display = 'block';
+                player.playVideo(); // Starts music at 0:45
+                typeWriter(notes[0]);
+            }, 1000);
+        });
+
+        document.getElementById('note-btn').addEventListener('click', () => {
+            currentNote = (currentNote + 1) % notes.length;
+            typeWriter(notes[currentNote]);
+        });
+
+        document.getElementById('hug-btn').addEventListener('click', (e) => {
+            for(let i=0; i<15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = ['❤️', '💖', '💕'][Math.floor(Math.random()*3)];
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                heart.style.setProperty('--x', (Math.random() - 0.5) * 400 + 'px');
+                heart.style.setProperty('--y', (Math.random() - 0.5) * 400 + 'px');
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1500);
+            }
+        });
+    </script>
+</body>
+</html>
