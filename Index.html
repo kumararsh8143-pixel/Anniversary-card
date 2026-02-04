@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Happy 2nd Anniversary!</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #fff5f5 0%, #fed7e1 100%);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Opening Button */
+    #envelope { text-align: center; }
+    button {
+      background-color: #ffb6c1;
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* The Main Card */
+    #anniversary-card {
+      display: none;
+      background-color: #fff9f9;
+      border: 3px double #ffb6c1;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
+    }
+
+    /* Photo Gallery side-by-side */
+    .photo-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .polaroid {
+      background: white;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .polaroid img { width: 120px; height: 120px; object-fit: cover; }
+
+    /* Timer Style */
+    #timer { margin: 20px 0; color: #8b0000; font-weight: bold; }
+
+    /* Pulsing Heart & Easter Egg */
+    .heart { font-size: 40px; cursor: pointer; animation: pulse 1.5s infinite; }
+    .tooltip { visibility: hidden; font-size: 0.8rem; color: #8b0000; }
+    .heart:hover .tooltip { visibility: visible; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="envelope">
+    <button onclick="revealCard()">For My Girl... Click to Open ✉️</button>
+  </div>
+
+  <div id="anniversary-card">
+    <h1>2 Years Together ❤️</h1>
+    <p>"Happy Anniversary! My favorite thing is seeing you become a <strong>happy little child</strong> when you're excited or tired. You make every day special."</p>
+
+    <div class="photo-gallery">
+      <div class="polaroid" style="transform: rotate(-5deg);"><img src="photo1.jpg"><p>2024</p></div>
+      <div class="polaroid" style="transform: rotate(5deg);"><img src="photo2.jpg"><p>2026</p></div>
+    </div>
+
+    <div id="timer">
+      <p>Time spent with you:</p>
+      <div id="display"></div>
+    </div>
+
+    <div class="heart">❤️<br><span class="tooltip">I love you to the moon and back! 🌙</span></div>
+    
+    <div id="music-container" style="margin-top:20px;"></div>
+  </div>
+
+  <script>
+    function revealCard() {
+      document.getElementById('envelope').style.display = 'none';
+      document.getElementById('anniversary-card').style.display = 'block';
+      // Embed YouTube video to autoplay
+      document.getElementById('music-container').innerHTML = 
+        '<iframe width="0" height="0" src="https://www.youtube.com/embed/KZGWfHdfWQs?autoplay=1" frameborder="0"></iframe>';
+    }
+
+    const start = new Date("February 4, 2024 00:00:00").getTime();
+    setInterval(function() {
+      const now = new Date().getTime();
+      const diff = now - start;
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById("display").innerHTML = d + "d " + h + "h " + m + "m " + s + "s";
+    }, 1000);
+  </script>
+</body>
+</html>
